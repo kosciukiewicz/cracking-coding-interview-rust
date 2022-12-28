@@ -83,7 +83,7 @@ mod tests {
 fn main() {
     let v = vec![1, 1, 2, 3];
     let mut linked_list = LinkedList::from_vec(v);
+    linked_list.delete_node_1(2);
 
-    println!("{:?}", linked_list.delete_node_1(2));
-    println!("{:?}", linked_list.delete_node_2(2));
+    println!("{:?}", linked_list.to_vec());
 }

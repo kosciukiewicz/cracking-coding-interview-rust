@@ -47,7 +47,11 @@ mod tests {
     #[rstest]
     #[case(vec ! [1, 2, 1, 3], 2, vec ! [1, 1, 2, 3])]
     #[case(vec ! [1, 2, 1, 2, 3], 2, vec ! [1, 1, 2, 2, 3])]
-    fn partition_list(#[case] input_vec: Vec<i32>, #[case] x: i32, #[case] expected: Vec<i32>) {
+    fn test_partition_list(
+        #[case] input_vec: Vec<i32>,
+        #[case] x: i32,
+        #[case] expected: Vec<i32>,
+    ) {
         let mut linked_list = LinkedList::from_vec(input_vec);
 
         assert_eq!(linked_list.partition_list(x).to_vec(), expected);

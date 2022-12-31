@@ -36,6 +36,23 @@ where
         }
     }
 
+    pub fn push_start(&mut self, v: T) {
+        let node = Node {
+            val: v,
+            next: self.head.as_ref().cloned(),
+            prev: None,
+        };
+        let node_ref = Rc::new(RefCell::new(node));
+        if let Some(head) = self.head.as_mut() {
+            head.as_ref().borrow_mut().prev = Some(Rc::downgrade(&node_ref));
+        } else {
+            self.tail = Some(node_ref.clone());
+        }
+
+        self.head = Some(node_ref);
+        self.length += 1
+    }
+
     pub fn push_back(&mut self, v: T) {
         let node = Node {
             val: v,

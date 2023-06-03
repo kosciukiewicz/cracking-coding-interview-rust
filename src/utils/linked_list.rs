@@ -94,6 +94,78 @@ where
     }
 }
 
+pub struct SingleLinkedList<T> {
+    pub head: Option<Rc<RefCell<Node<T>>>>,
+    pub tail: Option<Rc<RefCell<Node<T>>>>,
+    pub length: usize,
+}
+
+impl<T> Default for SingleLinkedList<T>
+where
+    T: Clone,
+{
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl<T> SingleLinkedList<T>
+where
+    T: Clone,
+{
+    pub fn new() -> Self {
+        SingleLinkedList {
+            head: None,
+            tail: None,
+            length: 0,
+        }
+    }
+
+    pub fn push(&mut self, v: T) {
+        let node = Node {
+            val: v,
+            next: None,
+            prev: None,
+        };
+        let node_ref = Rc::new(RefCell::new(node));
+        self.push_node(node_ref)
+    }
+
+    pub fn push_node(&mut self, node_ref: Rc<RefCell<Node<T>>>) {
+        if let Some(tail) = self.tail.as_mut() {
+            tail.as_ref().borrow_mut().next = Some(node_ref.clone());
+        } else {
+            self.head = Some(node_ref.clone());
+        }
+
+        self.tail = Some(node_ref);
+        self.length += 1
+    }
+
+    pub fn from_vec(v: Vec<T>) -> Self {
+        let mut list = SingleLinkedList::new();
+        for val in v.iter() {
+            list.push(val.clone())
+        }
+
+        list
+    }
+
+    pub fn to_vec(&self) -> Vec<T> {
+        let mut result: Vec<T> = Vec::new();
+        for node in self.ref_iter() {
+            result.push(node.borrow().val.clone());
+        }
+        result
+    }
+
+    pub fn ref_iter(&self) -> RefIter<T> {
+        RefIter {
+            next: self.head.clone(),
+        }
+    }
+}
+
 pub struct RefIter<T> {
     next: Option<Rc<RefCell<Node<T>>>>,
 }

@@ -5,7 +5,7 @@ args = ["fmt", "--", "--check"]
 [tasks.clippy]
 install_crate = "clippy"
 command = "cargo"
-args = ["clippy", "--all-targets", "--all-features", "--", "-D", "warnings"]
+args = ["clippy", "--all-targets", "--all-features", "--", "-D", "warnings", "-A", "clippy::items_after_test_module"]
 
 [tasks.test]
 command = "cargo"
